@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- Document Wrapper   
+============================================= -->
+<div id="main-wrapper"> 
+{% include 'navbar.html' %}
+  
+  <!-- Banner
+  ============================================= -->
+  <section class="hero-wrap section">
+    <div class="hero-bg hero-bg-scroll" style="background-image:url('{% static "images/bg/image-3.jpg" %}');"></div>
+    <div class="hero-content">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-lg-7 col-xl-6 text-center text-lg-left">
+            <h1 class="text-11 text-white mb-4">We Promise Profits on Your Investment</h1>
+            <p class="text-5 text-white line-height-4 mb-4">Signing up to a Natural Fruits account is FREE of charge.
+              Create your account today and start!</p>
+            <a href="#" class="btn btn-primary my-2 mr-2">Start Investing Now</a> </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Banner end --> 
+
+        <!-- Invest in items Content
+  ============================================= -->
+
+  <div id="content">
+
+    <section class="section pt-5 pb-0">
+        <div class="container">
+            <div class="row">
+    
+                <!-- ... (existing code) ... -->
+                {% for option in fruit_options %}
+                <!-- Invest In Farming -->
+                    <div class="col-md-6 mb-5">
+                        <div class="bg-white shadow-sm rounded p-4 text-center">
+                            <div class="featured-box style-4 py-2">
+                                <div class="featured-box-icon text-light border rounded-circle shadow-none">
+                                <i class="{{ option.icon }}"></i> <!-- Replace with your guava farming icon -->
+                                </div>
+                                <h3 class="text-body text-7 mb-3">Invest In {{ option.title }}</h3>
+                                <div class="text-primary text-10 pt-3 pb-4 mb-2">
+                                    ₹{{ option.invest_amount|floatformat:0 }}<span class="text-dark text-4 line-height-4">/Invest</span> ₹{{ option.earn_amount|floatformat:0 }}<span class="text-dark text-4 line-height-4">/Earn</span>
+                                </div>
+                                
+                                <p class="text-5 pt-3 pb-4 mb-2 text-dark line-height-4">
+                                <i class="fas fa-money-bill"></i> <!-- Replace with the appropriate icon -->
+                                Invest : ₹{{ option.invest_amount|floatformat:0 }}
+                                </p>
+                                <p class="text-5 pt-3 pb-4 mb-2 text-dark line-height-4">
+                                <i class="fas fa-money-bill"></i> <!-- Replace with the appropriate icon -->
+                                Per day : ₹{{ option.per_day_earn|floatformat:0 }}
+                                </p>
+                                <p class="text-5 pt-3 pb-4 mb-2 text-dark line-height-4">
+                                <i class="fas fa-money-bill"></i> <!-- Replace with the appropriate icon -->
+                                Days : {{ option.days }} 
+                                </p>
+                                <p class="text-5 pt-3 pb-4 mb-2 text-dark line-height-4">
+                                <i class="fas fa-money-bill-wave"></i> <!-- Replace with the appropriate icon -->
+                                Total Earning : {{ option.earn_amount|floatformat:0 }}
+                                </p>
+                                <p class="text-5 pt-3 pb-4 mb-2 text-dark line-height-4">
+                                <i class="fas fa-check-circle"></i> <!-- Replace with the appropriate icon -->
+                                Secured Invest hassle free
+                                </p>
+
+                                <form method="POST" action="/payment/" class="d-none d-sm-block">
+                                  {% csrf_token %}
+                                  <input type="hidden" name="amount" value="{{ option.invest_amount|floatformat:0 }}" />
+                                  <input type="hidden" name="item" value="{{ option.id }}" />
+                                  <button class="btn btn-primary w-100" type="submit">Choose Plan</button>
+                              </form>
+
+                              <form method="POST" action="/payment/" class="d-block d-sm-none w-100">
+                                  {% csrf_token %}
+                                  <input type="hidden" name="amount" value="{{ option.invest_amount|floatformat:0 }}" />
+                                  <input type="hidden" name="item" value="{{ option.id }}" />
+                                  <button class="btn btn-primary w-100" type="submit">Choose Plan</button>
+                              </form>
+                                
+                            </div>
+                        </div>
+                    </div>
+                <!-- Invest In Farming End -->
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% comment %} testing payment {% endcomment %}
+
+
+  <!-- Invest in items Content End
+============================================= -->
+
+<section class="section bg-primary">
+    <div class="container text-center">
+      <h2 class="text-9 text-white">Start your growth journey today by investing in Fruits Farming</h2>
+      <p class="text-5 text-white mb-4">Join us to experience seamless transactions and financial growth opportunities. add funds to your account now and get started!</p>
+      <a href={% url 'dashboard' %} class="btn btn-light">Add Funds To Your Acccount</a>
+    </div>
+  </section>
+  
+  
+  {% include 'footer.html' %}
+
+</div>
+<!-- ============================================= 
+ Document Wrapper  End -->
+
+
+{% endblock content %}

@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+
+<!-- Document Wrapper   
+============================================= -->
+<div id="main-wrapper"> 
+{% include 'navbar.html' %}
+
+  <!-- Content
+  ============================================= -->
+  <div id="content" class="py-4">
+    <div class="container">
+      <h2 class="font-weight-400 text-center mt-3 mb-4">Deposit Money</h2>
+      <div class="row">
+        <div class="col-md-8 col-lg-6 col-xl-5 mx-auto">
+          <div class="bg-light shadow-sm rounded p-3 p-sm-4 mb-4">
+            <h3 class="text-5 font-weight-400 mb-3">Deposit Money via</h3>
+            <!-- Deposit Money Confirm
+            ============================================= -->
+            <form id="form-send-money" method="post">
+              <div class="form-group">
+                <label for="paymentMethod">Bank</label>
+                <select id="cardType" class="custom-select" required="">
+                  <option>HDFC Bank</option>
+                  <option>Bank 2</option>
+                  <option>Bank 3</option>
+                </select>
+              </div>
+              <div class="alert alert-info rounded shadow-sm py-3 px-4 px-sm-2 mb-4">
+                <div class="row">
+                  <p class="col-sm-5 opacity-7 text-sm-right mb-0 mb-sm-3">Account Name:</p>
+                  <p class="col-sm-7">{{user.name}}</p>
+                </div>
+                <div class="row">
+                  <p class="col-sm-5 opacity-7 text-sm-right mb-0 mb-sm-3">Account Number:</p>
+                  <p class="col-sm-7">XXXXXXXXXXXX-9025</p>
+                </div>
+                <div class="row">
+                  <p class="col-sm-5 opacity-7 text-sm-right mb-0">Bank Name:</p>
+                  <p class="col-sm-7 mb-0">HDFC Bank</p>
+                </div>
+              </div>
+              <h3 class="text-5 font-weight-400 mb-3">Details</h3>
+              <p class="mb-1">Item <span class="text-3 float-right">{{item}} </span></p>
+              <p class="mb-1">Deposit Amount <span class="text-3 float-right">{{order.amount}} INR</span></p>
+              <p class="mb-1">Fees <span class="text-3 float-right">0.00 INR</span></p>
+              <hr>
+              <p class="font-weight-500">Total<span class="text-3 float-right">{{order.amount}} INR</span></p>
+              <button  id="rzp-button1" class="btn btn-primary btn-block" type="button">Confirm</button>
+            </form>
+            <!-- Deposit Money Confirm end --> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Content end --> 
+  
+  <!-- Footer
+  ============================================= -->
+  <footer id="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg d-lg-flex align-items-center">
+          <ul class="nav justify-content-center justify-content-lg-start text-3">
+            <li class="nav-item"> <a class="nav-link active" href="#">About Us</a></li>
+            <li class="nav-item"> <a class="nav-link" href="#">Support</a></li>
+            <li class="nav-item"> <a class="nav-link" href="#">Help</a></li>
+            <li class="nav-item"> <a class="nav-link" href="#">Careers</a></li>
+            <li class="nav-item"> <a class="nav-link" href="#">Affiliate</a></li>
+            <li class="nav-item"> <a class="nav-link" href="#">Fees</a></li>
+          </ul>
+        </div>
+        <div class="col-lg d-lg-flex justify-content-lg-end mt-3 mt-lg-0">
+          <ul class="social-icons justify-content-center">
+            <li class="social-icons-facebook"><a data-toggle="tooltip" href="http://www.facebook.com/" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+            <li class="social-icons-twitter"><a data-toggle="tooltip" href="http://www.twitter.com/" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a></li>
+            <li class="social-icons-google"><a data-toggle="tooltip" href="http://www.google.com/" target="_blank" title="Google"><i class="fab fa-google"></i></a></li>
+            <li class="social-icons-youtube"><a data-toggle="tooltip" href="http://www.youtube.com/" target="_blank" title="Youtube"><i class="fab fa-youtube"></i></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-copyright pt-3 pt-lg-2 mt-2">
+        <div class="row">
+          <div class="col-lg">
+            <p class="text-center text-lg-left mb-2 mb-lg-0">Copyright &copy; 2019 <a href="#">Natural Fruit</a>. All Rights Reserved.</p>
+          </div>
+          <div class="col-lg d-lg-flex align-items-center justify-content-lg-end">
+            <ul class="nav justify-content-center">
+              <li class="nav-item"> <a class="nav-link active" href="#">Security</a></li>
+              <li class="nav-item"> <a class="nav-link" href="#">Terms</a></li>
+              <li class="nav-item"> <a class="nav-link" href="#">Privacy</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- Footer end --> 
+  
+</div>
+<!-- Document Wrapper end --> 
+
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  var options = {
+    "key": "{{razorpay_merchant_id}}", // Enter the Key ID generated from the Dashboard
+    "amount": "{% widthratio final_price 1 100 %}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "Natural Fruits",
+    "description": "Test Transaction",
+    "order_id": "{{order_id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "callback_url": "{{callback_url}}",
+    "prefill": {
+      "name": "{{request.user.name}}",
+      "email": "{{request.user.email}}",
+      "contact": "+91" + "{{request.user.phone}}"
+    },
+    "theme": {
+      "color": "#2BA977"
+    }
+  };
+  var rzp1 = new Razorpay(options);
+  document.getElementById('rzp-button1').onclick = function (e) {
+    rzp1.open();
+    e.preventDefault();
+  }
+</script>
+
+{% endblock content %}

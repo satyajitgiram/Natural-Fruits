@@ -1,0 +1,235 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- Document Wrapper   
+============================================= -->
+<div id="main-wrapper"> 
+  
+  <!-- Header
+  ============================================= -->
+{% include 'navbar.html' %}
+  <!-- Header End --> 
+  
+  <!-- Content
+  ============================================= -->
+  <div id="content" class="py-4">
+    <div class="container">
+      <div class="row"> 
+        
+        <!-- Left Panel
+        ============================================= -->
+        <aside class="col-lg-3"> 
+          
+          <!-- Profile Details
+          =============================== -->
+          <div class="bg-light shadow-sm rounded text-center p-3 mb-4">
+            <div class="profile-thumb mt-3 mb-4"> <img class="rounded-circle" src="images/profile-thumb.jpg" alt="">
+              <div class="profile-thumb-edit custom-file bg-primary text-white" data-toggle="tooltip" title="Change Profile Picture"> <i class="fas fa-camera position-absolute"></i>
+                <input type="file" class="custom-file-input" id="customFile">
+              </div>
+            </div>
+            <p class="text-3 font-weight-500 mb-2">Hello, {{user.username}}</p>
+            <p class="mb-2"><a href="profile.html" class="text-5 text-light" data-toggle="tooltip" title="Edit Profile"><i class="fas fa-edit"></i></a></p>
+          </div>
+          <!-- Profile Details End --> 
+          
+          <!-- Available Balance
+          =============================== -->
+          <div class="bg-light shadow-sm rounded text-center p-3 mb-4">
+            <div class="text-17 text-light my-3"><i class="fas fa-wallet"></i></div>
+            <h3 class="text-9 font-weight-400">₹{{ user.wallet_balance }}</h3>
+            <p class="mb-2 text-muted opacity-8">Available Balance</p>
+            <hr class="mx-n3">
+            <div class="d-flex"><a href="#" class="btn-link mr-auto">Withdraw</a> <a href="#" class="btn-link ml-auto">Deposit</a></div>
+          </div>
+          <!-- Available Balance End --> 
+          
+          <!-- Need Help?
+          =============================== -->
+          <div class="bg-light shadow-sm rounded text-center p-3 mb-4">
+            <div class="text-17 text-light my-3"><i class="fas fa-comments"></i></div>
+            <h3 class="text-3 font-weight-400 my-4">Need Help?</h3>
+            <p class="text-muted opacity-8 mb-4">Have questions or concerns regrading your account?<br>
+              Our experts are here to help!.</p>
+            <a href="#" class="btn btn-primary btn-block">Chate with Us</a> </div>
+          <!-- Need Help? End -->
+          
+        </aside>
+        <!-- Left Panel End -->
+        
+        <!-- Middle Panel
+        ============================================= -->
+        <div class="col-lg-9">
+          
+          <h2 class="font-weight-400 mb-3">Transactions</h2>
+          
+          <!-- Filter
+          ============================================= -->
+          <div class="row">
+            <div class="col mb-2">
+              <form id="filterTransactions" method="post">
+                <div class="form-row">
+                  <!-- Date Range
+                  ========================= -->
+                  <div class="col-sm-6 col-md-5 form-group">
+                    <input id="dateRange" type="text" class="form-control" placeholder="Date Range">
+                    <span class="icon-inside"><i class="fas fa-calendar-alt"></i></span> 
+                  </div>
+                  <!-- All Filters Link
+                  ========================= -->
+                  <div class="col-auto d-flex align-items-center mr-auto form-group" data-toggle="collapse"> <a class="btn-link" data-toggle="collapse" href="#allFilters" aria-expanded="false" aria-controls="allFilters">All Filters<i class="fas fa-sliders-h text-3 ml-1"></i></a> </div>
+                  <!-- Statements Link
+                  ========================= -->
+                  <div class="col-auto d-flex align-items-center ml-auto form-group">
+                    <div class="dropdown"> <a class="text-muted btn-link" href="#" role="button" id="statements" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-file-download text-3 mr-1"></i>Statements</a>
+                      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="statements"> <a class="dropdown-item" href="#">CSV</a> <a class="dropdown-item" href="#">PDF</a> </div>
+                    </div>
+                  </div>
+                  
+                  <!-- All Filters collapse
+                  ================================ -->
+                  <div class="col-12 collapse mb-3" id="allFilters">
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" id="allTransactions" name="allFilters" class="custom-control-input" checked>
+                      <label class="custom-control-label" for="allTransactions">All Transactions</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" id="paymentsSend" name="allFilters" class="custom-control-input">
+                      <label class="custom-control-label" for="paymentsSend">Payments Send</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" id="paymentsReceived" name="allFilters" class="custom-control-input">
+                      <label class="custom-control-label" for="paymentsReceived">Payments Received</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" id="refunds" name="allFilters" class="custom-control-input">
+                      <label class="custom-control-label" for="refunds">Refunds</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" id="withdrawal" name="allFilters" class="custom-control-input">
+                      <label class="custom-control-label" for="withdrawal">Withdrawal</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" id="deposit" name="allFilters" class="custom-control-input">
+                      <label class="custom-control-label" for="deposit">Deposit</label>
+                    </div>
+                  </div>
+                  <!-- All Filters collapse End -->
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- Filter End -->
+          
+          <!-- All Transactions
+          ============================================= -->
+
+        <div class="bg-light shadow-sm rounded py-4 mb-4">
+            <h3 class="text-5 font-weight-400 d-flex align-items-center px-4 mb-3">All Transactions</h3>
+            <div class="transaction-title py-2 px-4">
+                <div class="row">
+                    <div class="col-2 col-sm-1 text-center"><span class="">Date</span></div>
+                    <div class="col col-sm-7">Description</div>
+                    <div class="col-auto col-sm-2 d-none d-sm-block text-center">Status</div>
+                    <div class="col-3 col-sm-2 text-right">Amount</div>
+                </div>
+            </div>
+            <div class="transaction-list">
+                {% for transaction in transactions %}
+                <div class="transaction-item px-4 py-3">
+                    <div class="row align-items-center flex-row">
+                        <div class="col-2 col-sm-1 text-center">
+                            <span class="d-block text-4 font-weight-300">{{ transaction.datetime_of_payment|date:"d" }}</span>
+                            <span class="d-block text-1 font-weight-300 text-uppercase">{{ transaction.datetime_of_payment|date:"M" }}</span>
+                        </div>
+                        <div class="col col-sm-7">
+                            <span class="d-block text-4">{{ transaction.item.title }}</span>
+                            <span class="text-muted">{{ transaction.get_payment_status_display }}</span>
+                        </div>
+                        <div class="col-auto col-sm-2 d-none d-sm-block text-center text-3">
+                            {% if transaction.payment_status == 1 %}
+                            <span class="text-success" data-toggle="tooltip" data-original-title="Completed">
+                                <i class="fas fa-check-circle"></i>
+                            </span>
+                            {% elif transaction.payment_status == 2 %}
+                            <span class="text-danger" data-toggle="tooltip" data-original-title="Failed">
+                                <i class="fas fa-times-circle"></i>
+                            </span>
+                            {% else %}
+                            <span class="text-warning" data-toggle="tooltip" data-original-title="In Progress">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </span>
+                            {% endif %}
+                        </div>
+                        <div class="col-3 col-sm-2 text-right text-4">
+                            {% if transaction.payment_status == 1 %}
+                            <span class="text-nowrap text-success">+ ₹{{ transaction.amount }}</span>
+                            {% elif transaction.payment_status == 2 %}
+                            <span class="text-nowrap text-danger"> ₹{{ transaction.amount }}</span>
+                            {% else %}
+                            <span class="text-nowrap text-dark"> ₹{{ transaction.amount }}</span>
+                            {% endif %}
+                            <span class="text-2 text-uppercase">(INR)</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+          <!-- All Transactions End --> 
+        </div>
+        <!-- Middle End --> 
+      </div>
+    </div>
+  </div>
+  <!-- Content end --> 
+  
+  <!-- Footer
+  ============================================= -->
+  <footer id="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg d-lg-flex align-items-center">
+          <ul class="nav justify-content-center justify-content-lg-start text-3">
+            <li class="nav-item"> <a class="nav-link active" href="#">About Us</a></li>
+            <li class="nav-item"> <a class="nav-link" href="#">Support</a></li>
+            <li class="nav-item"> <a class="nav-link" href="#">Help</a></li>
+            <li class="nav-item"> <a class="nav-link" href="#">Careers</a></li>
+            <li class="nav-item"> <a class="nav-link" href="#">Affiliate</a></li>
+            <li class="nav-item"> <a class="nav-link" href="#">Fees</a></li>
+          </ul>
+        </div>
+        <div class="col-lg d-lg-flex justify-content-lg-end mt-3 mt-lg-0">
+          <ul class="social-icons justify-content-center">
+            <li class="social-icons-facebook"><a data-toggle="tooltip" href="http://www.facebook.com/" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+            <li class="social-icons-twitter"><a data-toggle="tooltip" href="http://www.twitter.com/" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a></li>
+            <li class="social-icons-google"><a data-toggle="tooltip" href="http://www.google.com/" target="_blank" title="Google"><i class="fab fa-google"></i></a></li>
+            <li class="social-icons-youtube"><a data-toggle="tooltip" href="http://www.youtube.com/" target="_blank" title="Youtube"><i class="fab fa-youtube"></i></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-copyright pt-3 pt-lg-2 mt-2">
+        <div class="row">
+          <div class="col-lg">
+            <p class="text-center text-lg-left mb-2 mb-lg-0">Copyright &copy; 2019 <a href="#">Natural Fruit</a>. All Rights Reserved.</p>
+          </div>
+          <div class="col-lg d-lg-flex align-items-center justify-content-lg-end">
+            <ul class="nav justify-content-center">
+              <li class="nav-item"> <a class="nav-link active" href="#">Security</a></li>
+              <li class="nav-item"> <a class="nav-link" href="#">Terms</a></li>
+              <li class="nav-item"> <a class="nav-link" href="#">Privacy</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- Footer end --> 
+  
+</div>
+<!-- Document Wrapper end --> 
+
+{% endblock content %}

@@ -1,0 +1,55 @@
+/*-----------------------------------------------------------------------------------
+
+   Author: Satyajit Giram
+   Author URI: www.satyajitgiram.com
+	
+=================================================
+  Table of Contents
+=================================================
+
+	- Basic
+	- Helpers Classes
+	- Layouts
+	- Header
+		- Logo
+		- Primary Menu
+		- Secondary Nav
+		- Page Header
+	- Profile
+		- Dashboard
+		- Cards & Bank Account Page
+	- Elements
+		- Featured Box
+		- Team
+		- Accordion & Toggle
+		- Tabs
+		- Easy Responsive Tab Accordion
+		- Custom Background
+		- Owl Carousel
+		- Brands Grid
+		- Banner
+		- Simple ul
+	- Footer
+		- Social Icons
+		- Back to Top
+	- Extra
+
+-------------------------------------------------------------------*/
+
+// Initialize
+@import "variables";
+@import "mixins";
+
+
+// Core CSS
+@import "reset";
+@import "helpers";
+@import "layouts";
+
+
+// Content Blocks
+@import "header";
+@import "profile";
+@import "elements";
+@import "footer";
+@import "extras";
